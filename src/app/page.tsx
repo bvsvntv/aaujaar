@@ -1,6 +1,7 @@
 import Footer from "@/components/footer";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Binary, Languages } from "lucide-react";
+import Link from "next/link";
 
 const tools = [
   {
@@ -21,16 +22,17 @@ export default function Home() {
       <div className="flex flex-col items-center gap-2">
         {tools.map((tool) => {
           return (
-            <a
+            <Link
               key={tool.route}
               href={tool.route}
-              className="focus:outline-none"
+              className={buttonVariants({
+                variant: "secondary",
+                className: "sm:p-8 p-4 sm:text-lg",
+              })}
             >
-              <Button variant={"outline"} className={"sm:p-8 p-4 sm:text-lg"}>
-                {tool.icon}
-                {tool.name}
-              </Button>
-            </a>
+              {tool.icon}
+              {tool.name}
+            </Link>
           );
         })}
       </div>
