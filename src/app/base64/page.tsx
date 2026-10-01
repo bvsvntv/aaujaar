@@ -15,7 +15,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { ArrowLeft, ArrowLeftRight, Copy } from "lucide-react"
+import { ArrowLeft, ArrowLeftRight, BrushCleaning, Copy } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -107,6 +107,12 @@ export default function Base64() {
     await navigator.clipboard.writeText(output)
   }
 
+  function handleClear() {
+    setInput("")
+    setOutput("")
+    setError("")
+  }
+
   return (
     <div className="mt-8 p-2">
       <div className="flex gap-2">
@@ -151,6 +157,10 @@ export default function Base64() {
         </DropdownMenu>
 
         <div className="flex space-x-2">
+          <Button onClick={handleClear} variant="secondary" size="icon">
+            <BrushCleaning />
+          </Button>
+
           <Button onClick={handleSwap} variant="secondary" size="icon">
             <ArrowLeftRight />
           </Button>
