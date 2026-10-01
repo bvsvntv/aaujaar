@@ -2,107 +2,209 @@
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Field, FieldError } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ArrowLeft, ArrowLeftRight, Copy } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
+type Operation = "encode" | "decode";
+
 function encodeBase64(value: string) {
-  return atob(value);
+    const bytes = new TextEncoder().encode(value);
+
+    let binary = "";
+
+    bytes.forEach((byte) => {
+        binary += String.fromCharCode(byte);
+    });
+
+    return btoa(binary);
 }
 
 function decodeBase64(value: string) {
-  return btoa(value);
+    const binary = atob(value);
+
+    const bytes = Uint8Array.from(binary, (char) =>
+        char.charCodeAt(0)
+    );
+
+    return new TextDecoder().decode(bytes);
+}
+
+function transform(value: string, operation: Operation) {
+    switch (operation) {
+        case "encode":
+            return encodeBase64(value);
+        case "decode":
+            return decodeBase64(value);
+    }
 }
 
 export default function Base64() {
-  const [operation, setOperation] = useState<"encode" | "decode">("encode");
+    const [operation, setOperation] =
+        useState<Operation>("encode");
 
-  function handleCopy() {
-    console.log("Not implemented.");
-  }
+    const [input, setInput] = useState("");
+    const [output, setOutput] = useState("");
+    const [error, setError] = useState("");
 
-  function handleSwap() {
-    console.log("Not implemented.");
-  }
+    function handleInputChange(value: string) {
+        setInput(value);
+        setError("");
 
-  return (
-    <div className="mt-8 p-2">
-      <div className="flex gap-2">
-        <Tooltip>
-          <TooltipTrigger>
-            <Link
-              href={"/"}
-              className={buttonVariants({ variant: "outline", size: "icon" })}
-            >
-              <ArrowLeft />
-            </Link>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            <p>home</p>
-          </TooltipContent>
-        </Tooltip>
+        if (!value) {
+            setOutput("");
+            return;
+        }
 
-        <h1 className="font-semibold text-xl">Base64 Encoder/Decoder</h1>
-      </div>
+        try {
+            const result = transform(value, operation);
+            setOutput(result);
+        } catch {
+            setOutput("");
+            setError("Invalid Base64 input.");
+        }
+    }
 
-      <div className="mt-4 flex justify-between">
-        <DropdownMenu>
-          <DropdownMenuTrigger render={<Button variant="outline" />}>
-            Operation
-          </DropdownMenuTrigger>
+    function handleOperationChange(newOperation: Operation) {
+        setOperation(newOperation);
+        setError("");
 
-          <DropdownMenuContent>
-            <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => setOperation("encode")}>
-                Encode
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setOperation("decode")}>
-                Decode
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        if (!input) {
+            setOutput("");
+            return;
+        }
 
-        <div className="flex space-x-2">
-          <Button
-            onClick={() => handleSwap()}
-            variant={"secondary"}
-            size={"icon"}
-          >
-            <ArrowLeftRight />
-          </Button>
-          <Button
-            onClick={() => handleCopy()}
-            variant={"secondary"}
-            size={"icon"}
-          >
-            <Copy />
-          </Button>
+        try {
+            const result = transform(input, newOperation);
+            setOutput(result);
+        } catch {
+            setOutput("");
+            setError("Invalid Base64 input.");
+        }
+    }
+
+    function handleSwap() {
+        setInput(output);
+        setOutput(input);
+        setError("");
+
+        setOperation((current) =>
+            current === "encode" ? "decode" : "encode"
+        );
+    }
+
+    async function handleCopy() {
+        if (!output) return;
+
+        await navigator.clipboard.writeText(output);
+    }
+
+    return (
+        <div className="mt-8 p-2">
+            <div className="flex gap-2">
+                <Tooltip>
+                    <TooltipTrigger>
+                        <Link
+                            href="/"
+                            className={buttonVariants({
+                                variant: "outline",
+                                size: "icon",
+                            })}
+                        >
+                            <ArrowLeft />
+                        </Link>
+                    </TooltipTrigger>
+
+                    <TooltipContent side="bottom">
+                        <p>home</p>
+                    </TooltipContent>
+                </Tooltip>
+
+                <h1 className="font-semibold text-xl">
+                    Base64 Encoder/Decoder
+                </h1>
+            </div>
+
+            <div className="mt-4 flex justify-between">
+                <DropdownMenu>
+                    <DropdownMenuTrigger render={<Button variant="outline" />}>
+                        {operation === "encode" ? "Encode" : "Decode"}
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent>
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem onClick={() => handleOperationChange("encode")} >
+                                Encode
+                            </DropdownMenuItem>
+
+                            <DropdownMenuItem onClick={() => handleOperationChange("decode")} >
+                                Decode
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
+                <div className="flex space-x-2">
+                    <Button
+                        onClick={handleSwap}
+                        variant="secondary"
+                        size="icon"
+                    >
+                        <ArrowLeftRight />
+                    </Button>
+
+                    <Button
+                        onClick={handleCopy}
+                        variant="secondary"
+                        size="icon"
+                    >
+                        <Copy />
+                    </Button>
+                </div>
+            </div>
+
+            <section className="flex flex-col sm:flex-row gap-4 mt-4">
+                <Field data-invalid={!!error}>
+                    <Textarea
+                        className="h-48 sm:min-h-92"
+                        aria-invalid={!!error}
+                        value={input}
+                        onChange={(e) => handleInputChange(e.target.value)}
+                        spellCheck={false}
+                        placeholder={
+                            operation === "encode"
+                                ? "Plain text."
+                                : "Base64 encoded text."
+                        }
+                    />
+                    {error && <FieldError>{error}</FieldError>}
+                </Field>
+
+                <Textarea
+                    id="textarea-invalid"
+                    className="h-48 sm:min-h-92"
+                    value={output}
+                    readOnly
+                    placeholder={
+                        operation === "encode"
+                            ? "Base64 encoded text."
+                            : "Plain text."
+                    }
+                />
+            </section>
         </div>
-      </div>
-
-      <section className="flex flex-col sm:flex-row gap-4 mt-4">
-        <Textarea
-          spellCheck={false}
-          placeholder={`${operation === "encode" ? "Plain text." : "Base64 encoded text."}`}
-        />
-        <Textarea
-          readOnly
-          placeholder={`${operation === "encode" ? "Base64 encoded text." : "Plain text."}`}
-        />
-      </section>
-    </div>
-  );
+    );
 }
