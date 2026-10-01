@@ -1,9 +1,9 @@
 export default function Footer() {
   return (
-    <div className="sm:mt-4 mt-2">
-      <p className="text-muted-foreground text-xs sm:text-sm">
+    <div className="mt-2 sm:mt-4">
+      <p className="text-xs text-muted-foreground sm:text-sm">
         &#8226; Made by me, for me ;)
       </p>
     </div>
-  );
+  )
 }

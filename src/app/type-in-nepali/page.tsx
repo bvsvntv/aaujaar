@@ -1,11 +1,11 @@
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button"
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
+} from "@/components/ui/tooltip"
+import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
 
 export default function TypeInNepali() {
   return (
@@ -25,8 +25,8 @@ export default function TypeInNepali() {
           </TooltipContent>
         </Tooltip>
 
-        <h1 className="font-semibold text-xl">Romanized Nepali Typing</h1>
+        <h1 className="text-xl font-semibold">Romanized Nepali Typing</h1>
       </div>
     </div>
-  );
+  )
 }

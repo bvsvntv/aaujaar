@@ -1,7 +1,7 @@
-import Footer from "@/components/footer";
-import { buttonVariants } from "@/components/ui/button";
-import { Binary, Languages } from "lucide-react";
-import Link from "next/link";
+import Footer from "@/components/footer"
+import { buttonVariants } from "@/components/ui/button"
+import { Binary, Languages } from "lucide-react"
+import Link from "next/link"
 
 const tools = [
   {
@@ -14,11 +14,11 @@ const tools = [
     route: "/type-in-nepali",
     icon: <Languages data-icon="inline-start" />,
   },
-];
+]
 
 export default function Home() {
   return (
-    <main className="h-screen flex flex-col items-center justify-center">
+    <main className="flex h-screen flex-col items-center justify-center">
       <div className="flex flex-col items-center gap-2">
         {tools.map((tool) => {
           return (
@@ -27,17 +27,17 @@ export default function Home() {
               href={tool.route}
               className={buttonVariants({
                 variant: "secondary",
-                className: "sm:p-8 p-4 sm:text-lg",
+                className: "p-4 sm:p-8 sm:text-lg",
               })}
             >
               {tool.icon}
               {tool.name}
             </Link>
-          );
+          )
         })}
       </div>
 
       <Footer />
     </main>
-  );
+  )
 }
