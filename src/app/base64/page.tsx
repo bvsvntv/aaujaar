@@ -1,5 +1,8 @@
 "use client"
 
+import Link from "next/link"
+import { useState } from "react"
+import { toast } from "sonner"
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -16,8 +19,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { ArrowLeft, ArrowLeftRight, BrushCleaning, Copy } from "lucide-react"
-import Link from "next/link"
-import { useState } from "react"
 
 type Operation = "encode" | "decode"
 
@@ -52,7 +53,6 @@ function transform(value: string, operation: Operation) {
 
 export default function Base64() {
   const [operation, setOperation] = useState<Operation>("encode")
-
   const [input, setInput] = useState("")
   const [output, setOutput] = useState("")
   const [error, setError] = useState("")
@@ -90,6 +90,7 @@ export default function Base64() {
     } catch {
       setOutput("")
       setError("Invalid Base64 input.")
+      toast.error("Invalid Base64 input")
     }
   }
 
@@ -99,18 +100,30 @@ export default function Base64() {
     setError("")
 
     setOperation((current) => (current === "encode" ? "decode" : "encode"))
+
+    toast.success("Values swapped!")
   }
 
   async function handleCopy() {
-    if (!output) return
+    if (!output) {
+      toast.warning("Nothing to copy!")
+      return
+    }
 
-    await navigator.clipboard.writeText(output)
+    try {
+      await navigator.clipboard.writeText(output)
+      toast.success("Copied to clipboard!")
+    } catch {
+      toast.error("Failed to copy!")
+    }
   }
 
   function handleClear() {
     setInput("")
     setOutput("")
     setError("")
+
+    toast.success("Cleared!")
   }
 
   return (
@@ -130,7 +143,7 @@ export default function Base64() {
           </TooltipTrigger>
 
           <TooltipContent side="bottom">
-            <p>home</p>
+            <p>Home</p>
           </TooltipContent>
         </Tooltip>
 
@@ -183,11 +196,11 @@ export default function Base64() {
               operation === "encode" ? "Plain text." : "Base64 encoded text."
             }
           />
+
           {error && <FieldError>{error}</FieldError>}
         </Field>
 
         <Textarea
-          id="textarea-invalid"
           className="h-48 sm:min-h-92"
           value={output}
           readOnly
