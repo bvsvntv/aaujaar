@@ -1,9 +1,6 @@
 "use client"
 
-type NepaliSuggestionsProps = {
-  suggestions: string[]
-  onSelect: (suggestion: string) => void
-}
+import { NepaliSuggestionsProps } from "../types"
 
 export function NepaliSuggestions({
   suggestions,

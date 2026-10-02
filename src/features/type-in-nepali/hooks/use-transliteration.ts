@@ -1,9 +1,9 @@
 "use client"
 
-import { transliterate } from "@/lib/transliteration/client"
-import { nepaliPunctuation } from "@/lib/transliteration/punctuation"
-import { getWordAtCursor } from "@/lib/utils"
 import { useState, useRef, useCallback } from "react"
+import { nepaliPunctuation } from "../constants"
+import { getWordAtCursor } from "../libs/utils"
+import { transliterate } from "../libs/transliteration/client"
 
 export function useTransliteration(setInput: (value: string) => void) {
   const [suggestions, setSuggestions] = useState<string[]>([])

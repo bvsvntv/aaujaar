@@ -1,5 +1,6 @@
 "use client"
 
+import React, { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { toast } from "sonner"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -10,9 +11,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { ArrowLeft, BrushCleaning, Copy } from "lucide-react"
-import React, { useEffect, useRef, useState } from "react"
-import { useTransliteration } from "@/hooks/use-transliteration"
-import { NepaliSuggestions } from "./components/suggestions"
+import { useTransliteration } from "@/features/type-in-nepali/hooks/use-transliteration"
+import { NepaliSuggestions } from "@/features/type-in-nepali/components/suggestions"
 
 type CursorCoords = {
   top: number

@@ -1,4 +1,4 @@
-import { transliterator } from "@/lib/google-input/transliterator"
+import { transliterator } from "@/features/type-in-nepali/libs/google-input/transliterator"
 import { NextRequest } from "next/server"
 
 export async function POST(request: NextRequest) {
