@@ -27,7 +27,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="mx-auto max-w-7xl">
         <TooltipProvider>{children}</TooltipProvider>
-        <Toaster position="top-center" richColors={true} closeButton={true} />
+        <Toaster
+          position="top-center"
+          richColors={true}
+          closeButton={true}
+          duration={1500}
+        />
       </body>
     </html>
   )
