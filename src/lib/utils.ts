@@ -4,7 +4,7 @@ export function getWordAtCursor(
   text: string,
   cursorPos: number
 ): { word: string; start: number; end: number } | null {
-  const regex = /[A-Za-z0-9]+/g
+  const regex = /[A-Za-z0-9.]+/g
   let match: RegExpExecArray | null
 
   while ((match = regex.exec(text)) !== null) {

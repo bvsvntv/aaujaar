@@ -1,6 +1,7 @@
 "use client"
 
 import { transliterate } from "@/lib/transliteration/client"
+import { nepaliPunctuation } from "@/lib/transliteration/punctuation"
 import { getWordAtCursor } from "@/lib/utils"
 import { useState, useRef, useCallback } from "react"
 
@@ -28,6 +29,21 @@ export function useTransliteration(setInput: (value: string) => void) {
 
   async function handleChange(value: string, cursorPos: number) {
     setInput(value)
+
+    // Handle punctuation
+    const typedCharacter = value[cursorPos - 1]
+    if (typedCharacter in nepaliPunctuation) {
+      const replacement = nepaliPunctuation[typedCharacter]
+
+      const rebuilt =
+        value.slice(0, cursorPos - 1) + replacement + value.slice(cursorPos)
+
+      setInput(rebuilt)
+      setCursorRestorePosition(cursorPos)
+
+      clearSuggestions()
+      return
+    }
 
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current)
