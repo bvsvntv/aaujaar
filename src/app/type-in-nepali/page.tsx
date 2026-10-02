@@ -9,31 +9,40 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { ArrowLeft, BrushCleaning, Copy, Play } from "lucide-react"
+import { ArrowLeft, BrushCleaning, Copy } from "lucide-react"
+import React, { useRef, useState } from "react"
+import { useTransliteration } from "@/hooks/use-transliteration"
 
 export default function TypeInNepali() {
-  async function handleTransliteration() {
-    const response = await fetch("/api/transliterate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ text: "basanta" }),
-    })
-    if (!response.ok) {
-      throw new Error("Transliteration failed")
-    }
+  const [input, setInput] = useState<string>("")
 
-    const result = await response.json()
-    console.log(result)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const { suggestions, handleChange } = useTransliteration(setInput)
+
+  function handleInput(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    handleChange(event.target.value, event.target.selectionStart)
   }
 
-  function handleCopy() {
-    toast.error("Not implemented!")
+  console.log("suggestions: ", suggestions)
+
+  async function handleCopy() {
+    if (!input) {
+      toast.warning("Nothing to copy!")
+      return
+    }
+
+    try {
+      await navigator.clipboard.writeText(input)
+      toast.success("Copied to clipboard!")
+    } catch {
+      toast.error("Failed to copy!")
+    }
   }
 
   function handleClear() {
-    toast.error("Not implemented!")
+    setInput("")
+    toast.success("Everything cleared!")
   }
 
   return (
@@ -64,14 +73,15 @@ export default function TypeInNepali() {
         <Button onClick={handleCopy} variant="secondary" size="icon">
           <Copy />
         </Button>
-
-        <Button onClick={handleTransliteration} variant="secondary" size="icon">
-          <Play />
-        </Button>
       </div>
 
       <section className="mt-4">
-        <Textarea className="h-48 sm:min-h-92" />
+        <Textarea
+          ref={textareaRef}
+          value={input}
+          onChange={handleInput}
+          className="h-48 sm:min-h-92"
+        />
       </section>
     </div>
   )

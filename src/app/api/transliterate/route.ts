@@ -1,4 +1,4 @@
-import { transliterate } from "@/lib/google-input/transliterate"
+import { transliterator } from "@/lib/google-input/transliterator"
 import { NextRequest } from "next/server"
 
 export async function POST(request: NextRequest) {
@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: "Text is required" }, { status: 400 })
     }
 
-    const result = await transliterate(text)
+    const result = await transliterator(text)
 
     if (
       !Array.isArray(result) ||

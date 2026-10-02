@@ -6,7 +6,7 @@ dotenv.config({ path: "./.env" })
 const PREFERRED_LANGUAGE_CODE = "ne-t-i0-und" // Nepali language
 const PREFERRED_MAX_RESULTS = 5
 
-export async function transliterate(text: string) {
+export async function transliterator(text: string) {
   const baseURL = process.env.GOOGLE_INPUT_TOOLS_URL
   if (!baseURL) {
     throw new Error("GOOGLE_INPUT_TOOLS_URL is not configured.")
