@@ -19,7 +19,10 @@ export function NepaliSuggestions({
         <button
           key={suggestion}
           type="button"
-          onClick={() => onSelect(suggestion)}
+          onMouseDown={(event) => {
+            event.preventDefault()
+            onSelect(suggestion)
+          }}
           className="w-full rounded-sm px-2 py-1.5 text-left text-sm outline-none hover:bg-accent hover:text-accent-foreground"
         >
           {suggestion}
