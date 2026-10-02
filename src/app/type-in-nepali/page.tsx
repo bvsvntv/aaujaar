@@ -9,9 +9,25 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { ArrowLeft, BrushCleaning, Copy } from "lucide-react"
+import { ArrowLeft, BrushCleaning, Copy, Play } from "lucide-react"
 
 export default function TypeInNepali() {
+  async function handleTransliteration() {
+    const response = await fetch("/api/transliterate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text: "basanta" }),
+    })
+    if (!response.ok) {
+      throw new Error("Transliteration failed")
+    }
+
+    const result = await response.json()
+    console.log(result)
+  }
+
   function handleCopy() {
     toast.error("Not implemented!")
   }
@@ -47,6 +63,10 @@ export default function TypeInNepali() {
 
         <Button onClick={handleCopy} variant="secondary" size="icon">
           <Copy />
+        </Button>
+
+        <Button onClick={handleTransliteration} variant="secondary" size="icon">
+          <Play />
         </Button>
       </div>
 
