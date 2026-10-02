@@ -63,7 +63,7 @@ export function useTransliteration(setInput: (value: string) => void) {
             results[0] +
             value.slice(atCursor.end)
           setInput(rebuilt)
-          setCursorRestorePosition(atCursor.start + results[0].length)
+          setCursorRestorePosition(atCursor.start + results[0].length + 1)
         }
       } catch (err) {
         console.error("ERROR: ", err)
