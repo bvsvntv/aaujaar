@@ -74,9 +74,12 @@ export function useTransliteration(setInput: (value: string) => void) {
 
   function handleSelectSuggestion(suggestion: string, input: string) {
     if (!wordRange) return
+
     const { start, end } = wordRange
+
     const rebuilt = input.slice(0, start) + suggestion + input.slice(end)
     setInput(rebuilt)
+
     setCursorRestorePosition(start + suggestion.length)
 
     clearSuggestions()
