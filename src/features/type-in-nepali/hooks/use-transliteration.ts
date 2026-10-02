@@ -16,6 +16,7 @@ export function useTransliteration(setInput: (value: string) => void) {
     number | null
   >(null)
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const abortController = useRef<AbortController | null>(null)
 
   const handleCursorRestored = useCallback(() => {
     setCursorRestorePosition(null)
@@ -76,13 +77,23 @@ export function useTransliteration(setInput: (value: string) => void) {
       setWordRange({ start: atCursor.start, end: atCursor.end })
       const word = atCursor.word
       debounceTimer.current = setTimeout(async () => {
+        // Cancel the previous request
+        abortController.current?.abort()
+
+        // Create controller for this request
+        const controller = new AbortController()
+        abortController.current = controller
+
         try {
-          const results = await transliterate(word)
+          const results = await transliterate(word, controller.signal)
           setSuggestions(results)
-        } catch {
+        } catch (error) {
+          if (error instanceof DOMException && error.name === "AbortError") {
+            return
+          }
           setSuggestions([])
         }
-      }, 300)
+      }, 150)
     } else {
       clearSuggestions()
     }
