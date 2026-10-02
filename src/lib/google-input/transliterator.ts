@@ -3,11 +3,11 @@ import dotenv from "dotenv"
 // Load '.env
 dotenv.config({ path: "./.env" })
 
+const baseURL = process.env.GOOGLE_INPUT_TOOLS_URL
 const PREFERRED_LANGUAGE_CODE = "ne-t-i0-und" // Nepali language
 const PREFERRED_MAX_RESULTS = 5
 
-export async function transliterator(text: string) {
-  const baseURL = process.env.GOOGLE_INPUT_TOOLS_URL
+export async function transliterator(text: string): Promise<string[]> {
   if (!baseURL) {
     throw new Error("GOOGLE_INPUT_TOOLS_URL is not configured.")
   }
@@ -25,5 +25,12 @@ export async function transliterator(text: string) {
     )
   }
 
-  return response.json()
+  const serialized = await response.json()
+  const suggestions = serialized?.[1]?.[0]?.[1]
+
+  if (!Array.isArray(serialized)) {
+    return []
+  }
+
+  return suggestions
 }
