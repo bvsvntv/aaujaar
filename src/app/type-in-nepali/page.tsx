@@ -1,18 +1,13 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-import Link from "next/link"
 import { toast } from "sonner"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { ArrowLeft, BrushCleaning, Copy } from "lucide-react"
+import { BrushCleaning, Copy } from "lucide-react"
 import { useTransliteration } from "@/features/type-in-nepali/hooks/use-transliteration"
 import { NepaliSuggestions } from "@/features/type-in-nepali/components/suggestions"
+import SectionHeader from "@/components/common/section-header"
 
 type CursorCoords = {
   top: number
@@ -131,23 +126,7 @@ export default function TypeInNepali() {
 
   return (
     <div className="mt-8 p-2">
-      <div className="flex gap-2">
-        <Tooltip>
-          <TooltipTrigger>
-            <Link
-              href={"/"}
-              className={buttonVariants({ variant: "outline", size: "icon" })}
-            >
-              <ArrowLeft />
-            </Link>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            <p>home</p>
-          </TooltipContent>
-        </Tooltip>
-
-        <h1 className="text-xl font-semibold">Romanized Nepali Typing</h1>
-      </div>
+      <SectionHeader header="Romanized Nepali Typing" />
 
       <div className="flex justify-end space-x-2">
         <Button onClick={handleClear} variant="secondary" size="icon">

@@ -1,9 +1,8 @@
 "use client"
 
-import Link from "next/link"
 import { useState } from "react"
 import { toast } from "sonner"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,12 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Field, FieldError } from "@/components/ui/field"
 import { Textarea } from "@/components/ui/textarea"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { ArrowLeft, ArrowLeftRight, BrushCleaning, Copy } from "lucide-react"
+import { ArrowLeftRight, BrushCleaning, Copy } from "lucide-react"
+import SectionHeader from "@/components/common/section-header"
 
 type Operation = "encode" | "decode"
 
@@ -128,27 +123,7 @@ export default function Base64() {
 
   return (
     <div className="mt-8 p-2">
-      <div className="flex gap-2">
-        <Tooltip>
-          <TooltipTrigger>
-            <Link
-              href="/"
-              className={buttonVariants({
-                variant: "outline",
-                size: "icon",
-              })}
-            >
-              <ArrowLeft />
-            </Link>
-          </TooltipTrigger>
-
-          <TooltipContent side="bottom">
-            <p>Home</p>
-          </TooltipContent>
-        </Tooltip>
-
-        <h1 className="text-xl font-semibold">Base64 Encoder/Decoder</h1>
-      </div>
+      <SectionHeader header="Base64 Encoder/Decoder" />
 
       <div className="mt-4 flex justify-between">
         <DropdownMenu>
