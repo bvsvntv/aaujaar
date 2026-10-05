@@ -1,20 +1,35 @@
 "use client"
 
 import SectionHeader from "@/components/common/section-header"
+import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { BrushCleaning } from "lucide-react"
 import { useState } from "react"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
+import { toast } from "sonner"
 
 export default function MarkdownEditor() {
   const [input, setInput] = useState<string>("")
+
+  function handleClear() {
+    setInput("")
+    toast.success("Everything cleared!")
+  }
 
   return (
     <div className="mt-8 p-2">
       <SectionHeader header="Markdown Editor" />
 
+      <div className="flex justify-end space-x-2">
+        <Button onClick={handleClear} variant="secondary" size="icon">
+          <BrushCleaning />
+        </Button>
+      </div>
+
       <section className="mt-4 flex flex-col gap-4 sm:flex-row">
         <Textarea
+          value={input}
           onChange={(e) => setInput(e.target.value)}
           className="h-48 sm:min-h-92"
           spellCheck={false}
