@@ -15,8 +15,11 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Aaujaar",
-  description: "Digital arsenal",
+  title: {
+    template: "%s | Aaujaar",
+    default: "Aaujaar",
+  },
+  description: "A personal arsenal of useful tools and utilities.",
 }
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
