@@ -1,4 +1,4 @@
-import Footer from "@/components/footer"
+import Footer from "@/components/common/footer"
 import { buttonVariants } from "@/components/ui/button"
 import { Binary, Languages } from "lucide-react"
 import Link from "next/link"
