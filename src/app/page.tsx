@@ -1,6 +1,6 @@
 import Footer from "@/components/common/footer"
 import { buttonVariants } from "@/components/ui/button"
-import { Binary, Languages } from "lucide-react"
+import { Binary, CodeXml, Languages } from "lucide-react"
 import Link from "next/link"
 
 const tools = [
@@ -13,6 +13,11 @@ const tools = [
     name: "Romanized Nepali Typing",
     route: "/type-in-nepali",
     icon: <Languages data-icon="inline-start" />,
+  },
+  {
+    name: "Markdown Editor",
+    route: "/markdown-editor",
+    icon: <CodeXml data-icon="inline-start" />,
   },
 ]
 
