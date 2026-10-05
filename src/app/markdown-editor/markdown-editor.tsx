@@ -3,7 +3,7 @@
 import SectionHeader from "@/components/common/section-header"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { BrushCleaning } from "lucide-react"
+import { BrushCleaning, Copy } from "lucide-react"
 import { useState } from "react"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
@@ -17,6 +17,20 @@ export default function MarkdownEditor() {
     toast.success("Everything cleared!")
   }
 
+  async function handleCopy() {
+    if (!input) {
+      toast.warning("Nothing to copy!")
+      return
+    }
+
+    try {
+      await navigator.clipboard.writeText(input)
+      toast.success("Copied to clipboard!")
+    } catch {
+      toast.error("Failed to copy!")
+    }
+  }
+
   return (
     <div className="mt-8 p-2">
       <SectionHeader header="Markdown Editor" />
@@ -24,6 +38,10 @@ export default function MarkdownEditor() {
       <div className="flex justify-end space-x-2">
         <Button onClick={handleClear} variant="secondary" size="icon">
           <BrushCleaning />
+        </Button>
+
+        <Button onClick={handleCopy} variant="secondary" size="icon">
+          <Copy />
         </Button>
       </div>
 
