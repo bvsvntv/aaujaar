@@ -31,7 +31,7 @@ export default function MarkdownEditor() {
         <Textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="h-48 sm:min-h-92"
+          className="h-48 flex-1 sm:min-h-172"
           spellCheck={false}
         />
 
