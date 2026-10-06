@@ -8,9 +8,12 @@ type SectionHeaderProps = {
   description?: string
 }
 
-export default function SectionHeader({ header }: SectionHeaderProps) {
+export default function SectionHeader({
+  header,
+  description,
+}: SectionHeaderProps) {
   return (
-    <div className="flex gap-2">
+    <div className="flex items-baseline gap-2">
       <Tooltip>
         <TooltipTrigger>
           <Link
@@ -29,7 +32,11 @@ export default function SectionHeader({ header }: SectionHeaderProps) {
         </TooltipContent>
       </Tooltip>
 
-      <h1 className="text-xl font-semibold">{header}</h1>
+      <div>
+        <h1 className="text-xl font-semibold">{header}</h1>
+
+        <p className="text-sm text-muted-foreground">{description}</p>
+      </div>
     </div>
   )
 }

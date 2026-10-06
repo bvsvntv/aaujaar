@@ -33,7 +33,10 @@ export default function MarkdownEditor() {
 
   return (
     <div className="mt-8 p-2">
-      <SectionHeader header="Markdown Editor" />
+      <SectionHeader
+        header="Markdown Editor"
+        description="Edit & Preview Markdown."
+      />
 
       <div className="flex justify-end space-x-2">
         <Button onClick={handleClear} variant="secondary" size="icon">

@@ -126,7 +126,10 @@ export default function TypeInNepali() {
 
   return (
     <div className="mt-8 p-2">
-      <SectionHeader header="Romanized Nepali Typing" />
+      <SectionHeader
+        header="Romanized Nepali Typing"
+        description="Type in Nepali using Romanized English input."
+      />
 
       <div className="flex justify-end space-x-2">
         <Button onClick={handleClear} variant="secondary" size="icon">

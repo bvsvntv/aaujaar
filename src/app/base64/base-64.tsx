@@ -123,7 +123,10 @@ export default function Base64() {
 
   return (
     <div className="mt-8 p-2">
-      <SectionHeader header="Base64 Encoder/Decoder" />
+      <SectionHeader
+        header="Base64 Encoder/Decoder"
+        description="Quickly encode text to Base64 or decode Base64 strings back to plain text."
+      />
 
       <div className="mt-4 flex justify-between">
         <DropdownMenu>
