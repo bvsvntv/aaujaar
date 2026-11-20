@@ -56,7 +56,7 @@ export default function MarkdownEditor() {
           spellCheck={false}
         />
 
-        <div className="flex-1 rounded-lg border px-2.5 py-2 dark:prose-invert">
+        <div className="h-48 flex-1 overflow-y-scroll rounded-lg border px-2.5 py-2 sm:min-h-172">
           <div className="prose">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{input}</ReactMarkdown>
           </div>
